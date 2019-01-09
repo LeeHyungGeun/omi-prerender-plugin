@@ -5,7 +5,7 @@ const cheerio = require('cheerio');
 
 const list = []; // store a data to inject js codes. { data, outputPath, outputName, fileName }
 
-class OmiPrerender {
+class OmiPrerenderPlugin {
   apply (compiler) {
     compiler.hooks.compilation.tap('OmiPrerenderPlugin', (compilation) => {
       HtmlWebpackPlugin.getHooks && HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync(
@@ -15,13 +15,11 @@ class OmiPrerender {
           const outputName = data.plugin.childCompilationOutputName;
           const assetJson = data.plugin.assetJson || [];
           const files = JSON.parse(assetJson);
-          files.forEach((fileName) => {
-             list.push({
-               data,
-               outputPath,
-               outputName,
-               fileName,
-             });
+          list.push({
+            data,
+            outputPath,
+            outputName,
+            fileNames: [...files],
           });
           cb(null, data)
         } 
@@ -36,17 +34,18 @@ class OmiPrerender {
 
 // inject JS into JS assets
 function injectJs(list) {
-    list.forEach(({ data, outputPath, outputName, fileName }) => {
+  list.forEach(({ data, outputPath, outputName, fileNames }) => {
+    const $ = cheerio.load(data.html);
+    const htmlPath = path.resolve(outputPath, outputName);
+    fileNames.forEach(fileName => {
       if (/\.(js|ts)$/.test(fileName)) {
         const jsPath = path.resolve(outputPath, fileName);
-        console.log(jsPath);
-        const htmlPath = path.resolve(outputPath, outputName);
-        const $ = cheerio.load(data.html);
         const jscode = fs.readFileSync(jsPath, 'utf8');
         $('body').append('<script>' + jscode + '</script>');
-        fs.writeFileSync(htmlPath, $.html(), () => {});
       }
     });
+    fs.writeFileSync(htmlPath, $.html(), () => {});
+  });
 }
 
-module.exports = OmiPrerender;
+module.exports = OmiPrerenderPlugin;

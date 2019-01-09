@@ -1,6 +1,6 @@
 {
   "name": "omi-prerender-plugin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A plugin to prerender for [Omi](https://github.com/Tencent/omi) framework.",
   "main": "index.js",
   "scripts": {
