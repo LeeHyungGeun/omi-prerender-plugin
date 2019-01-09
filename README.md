@@ -18,7 +18,7 @@
 
 <div align="center">
 
-[![NPM](https://nodei.co/npm/prerender-spa-plugin.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/prerender-spa-plugin/)
+[![NPM](https://nodei.co/npm/omi-prerender-plugin.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/omi-prerender-plugin/)
 
 </div>
 
