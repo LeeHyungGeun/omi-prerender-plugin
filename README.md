@@ -27,9 +27,10 @@
 You can prerender using `omi-prerender-plugin` in webpack configuration with `html-webpack-plugin`.
 
 ## Usage
-const OmiPrerenderPlugin = require('omi-prerender-plugin');
 
 ``` javascript
+const OmiPrerenderPlugin = require('omi-prerender-plugin');
+
 plugins: [
   new HtmlWebpackPlugin({
     inject: true,
